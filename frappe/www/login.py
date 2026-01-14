@@ -48,10 +48,12 @@ def get_context(context):
 	context["disable_signup"] = cint(frappe.get_website_settings("disable_signup"))
 	context["show_footer_on_login"] = cint(frappe.get_website_settings("show_footer_on_login"))
 	context["disable_user_pass_login"] = cint(frappe.get_system_settings("disable_user_pass_login"))
-	context["logo"] = get_app_logo()
-	context["app_name"] = (
-		frappe.get_website_settings("app_name") or frappe.get_system_settings("app_name") or _("Frappe")
-	)
+	# Use the AstraCore firm logo on the login page.
+	context["logo"] = "/assets/frappe/images/AstraCoreFirmLogo.png"
+	app_name = frappe.get_website_settings("app_name") or frappe.get_system_settings("app_name")
+	if not app_name or app_name == "Frappe":
+		app_name = "AstraCore"
+	context["app_name"] = app_name
 
 	signup_form_template = frappe.get_hooks("signup_form_template")
 	if signup_form_template and len(signup_form_template):

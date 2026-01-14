@@ -91,7 +91,7 @@ def send_verification_code():
 	if request.status_code == 200:
 		return request.json().get("message")
 	else:
-		frappe.throw(_("Failed to request login to Frappe Cloud"))
+		frappe.throw(_("Failed to request login to AstraCore Cloud"))
 
 
 @frappe.whitelist()

@@ -107,7 +107,7 @@ class EmailAccount(Document):
 		service: DF.Literal[
 			"", "Frappe Mail", "GMail", "Sendgrid", "SparkPost", "Yahoo Mail", "Outlook.com", "Yandex.Mail"
 		]
-		signature: DF.TextEditor | None
+		signature: DF.HTMLEditor | None
 		smtp_port: DF.Data | None
 		smtp_server: DF.Data | None
 		track_email_status: DF.Check

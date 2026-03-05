@@ -11,7 +11,9 @@ function authenticate_with_frappe(socket, next) {
 		next(new Error("Invalid namespace"));
 	}
 
-	if (get_hostname(socket.request.headers.host) != get_hostname(socket.request.headers.origin)) {
+	const effective_host =
+		socket.request.headers["x-frappe-site-name"] || socket.request.headers.host;
+	if (get_hostname(effective_host) != get_hostname(socket.request.headers.origin)) {
 		next(new Error("Invalid origin"));
 		return;
 	}

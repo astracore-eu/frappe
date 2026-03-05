@@ -386,6 +386,9 @@ def get_formatted_html(
 ):
 	email_account = email_account or EmailAccount.find_outgoing(match_by_email=sender)
 
+	if email_account:
+		message += get_signature(email_account)
+
 	params = {
 		"site_url": get_url(),
 		"title": subject,

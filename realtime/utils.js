@@ -5,13 +5,13 @@ function get_url(socket, path) {
 	if (!path) {
 		path = "";
 	}
-	let url =
-		socket.request.headers.origin ||
-		`${socket.request.secure ? "https" : "http"}://${socket.request.headers.host}`;
-	if (conf.developer_mode) {
-		let [protocol, host, port] = url.split(":");
-		port = conf.webserver_port;
-		url = `${protocol}:${host}:${port}`;
+	let url = socket.request.headers.origin;
+	if (!url || !conf.developer_mode) {
+		let port = conf.webserver_port || 8000;
+		url = `http://localhost:${port}`;
+	} else if (conf.developer_mode) {
+		let [protocol, host] = url.split(":");
+		url = `${protocol}:${host}:${conf.webserver_port}`;
 	}
 	return url + path;
 }

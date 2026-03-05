@@ -11,11 +11,14 @@ function authenticate_with_frappe(socket, next) {
 		next(new Error("Invalid namespace"));
 	}
 
-	const effective_host =
-		socket.request.headers["x-frappe-site-name"] || socket.request.headers.host;
-	if (get_hostname(effective_host) != get_hostname(socket.request.headers.origin)) {
-		next(new Error("Invalid origin"));
-		return;
+	const origin = socket.request.headers.origin;
+	if (origin) {
+		const effective_host =
+			socket.request.headers["x-frappe-site-name"] || socket.request.headers.host;
+		if (get_hostname(effective_host) != get_hostname(origin)) {
+			next(new Error("Invalid origin"));
+			return;
+		}
 	}
 
 	if (!socket.request.headers.cookie && !socket.request.headers.authorization) {
